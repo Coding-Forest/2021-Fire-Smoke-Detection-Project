@@ -4,26 +4,7 @@ import numpy as np
 import smtplib
 from playsound import playsound
 
-FIRE_REPORTED = 0
-ALARM_STATUS = False
-EMAIL_STATUS = False
-audio = os.path.dirname(__file__) + "/firealarm.wav"
-
-def send_email_alert():
-    receiver_email = "Fire Engine Email Address"
-    receiver_email = receiver_email.lower()
-
-    try:
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()
-        server.starttls()
-        server.login("system_email", "password")
-        server.sendmail("system_email", receiver_email, "Warning: a fire incident has been reported in your office.")
-        print("sent to {}".format(receiver_email))
-    except Exception as e:
-        print(e)
-
-
+# Video used: https://www.youtube.com/watch?v=aL9c-4EerTo&ab_channel=NBCNews
 video = cv2.VideoCapture("video/Homes Evacuated As Wildfire Threatens To Engulf Manavgat, Turkey.mp4")
 
 # while while is running, we extract the frames.
@@ -35,6 +16,7 @@ while True:
     hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)
 
     # Set colour range for fire & smoke.
+    # This range will be used to black out non-fire/smoke objects and highlight fire and smoke only.
     lower = [18, 50, 50]
     upper = [35, 255, 255]
 
